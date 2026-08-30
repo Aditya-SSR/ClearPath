@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* Tailwind 4: enable class-based dark mode (toggled via .dark on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Clerk's default theme follows color-scheme for automatic light/dark switching */
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}

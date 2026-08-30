@@ -4,6 +4,8 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "@clerk/express": "^2.1.64",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1"
   },
   "devDependencies": {

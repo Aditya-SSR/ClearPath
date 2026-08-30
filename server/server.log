@@ -1,8 +1,12 @@
 ◇ injected env (2) from .env // tip: ⌘ suppress logs { quiet: true }
 Server is listening on PORT 6000
-5:06:09 pm GET request made to: /
+5:46:19 pm GET request made to: /
 Attention: Clerk collects telemetry data from its SDKs when connected to development instances.
 The data collected is used to inform Clerk's product roadmap.
 To learn more, including how to opt-out from the telemetry program, visit: https://clerk.com/docs/telemetry.
 
-5:06:09 pm GET request made to: /users
+5:46:19 pm GET request made to: /users
+5:46:19 pm OPTIONS request made to: /users
+5:46:19 pm OPTIONS request made to: /users
+5:46:19 pm OPTIONS request made to: /users
+5:46:19 pm POST request made to: /api/webhooks/clerk

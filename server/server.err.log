@@ -1,0 +1,1 @@
+Webhook verification failed: @clerk/backend: Missing webhook signing secret. Set the CLERK_WEBHOOK_SIGNING_SECRET environment variable with the webhook secret from the Clerk Dashboard.

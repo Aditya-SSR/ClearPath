@@ -8,3 +8,5 @@ To learn more, including how to opt-out from the telemetry program, visit: https
 1:37:23 pm GET request made to: /questionnaire/questions
 1:37:23 pm POST request made to: /questionnaire/submit
 1:37:23 pm GET request made to: /profile/some-id
+1:56:01 pm GET request made to: /
+1:56:03 pm GET request made to: /

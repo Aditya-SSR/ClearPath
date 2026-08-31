@@ -57,7 +57,8 @@ app.use((err, req, res, next) => {
     res.status(err.status || 500).json({ error: err.message || `Internal server error` });
 });
 
-const PORT = process.env.PORT || 6000;
+// NOTE: port 6000 is on browsers' ERR_UNSAFE_PORT blocklist (X11) — use 4000.
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
     console.log(`Server is listening on PORT ${PORT}`);

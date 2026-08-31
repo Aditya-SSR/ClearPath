@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 function SunIcon() {
   return (
     <svg
-      className="h-5 w-5"
+      className="h-[18px] w-[18px]"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -24,7 +24,7 @@ function SunIcon() {
 function MoonIcon() {
   return (
     <svg
-      className="h-5 w-5"
+      className="h-[18px] w-[18px]"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -57,7 +57,7 @@ export default function ThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="flex h-9 w-9 items-center justify-center rounded-md border border-neutral-200 bg-white text-neutral-700 transition-colors hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800 cursor-pointer"
+      className="btn btn-ghost !px-0 h-9 w-9 rounded-lg"
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
     </button>

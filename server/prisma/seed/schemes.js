@@ -1,0 +1,77 @@
+// Government scheme catalog. MUDRA/PMEGP/CGTMSE are seeded industry-agnostic
+// (industrySlug: null) because they genuinely apply across industries —
+// the per-industry lists from the brief are all covered.
+module.exports = [
+    {
+        slug: `mudra_loan`,
+        name: `MUDRA Loan (PM MUDRA Yojana)`,
+        description: `Collateral-free loans for non-corporate, non-farm micro and small enterprises, disbursed via banks, NBFCs and MFIs.`,
+        benefits: `Shishu (up to ₹50,000), Kishor (₹50,000–₹5 L), Tarun (₹5–10 L) and Tarun Plus (₹10–20 L) loan categories.`,
+        officialLink: `https://www.mudra.org.in`,
+        industrySlug: null,
+    },
+    {
+        slug: `pmegp`,
+        name: `PMEGP (Prime Minister's Employment Generation Programme)`,
+        description: `Credit-linked capital subsidy scheme for setting up NEW micro-enterprises in manufacturing or services.`,
+        benefits: `15–35% margin money subsidy on project costs up to ₹25 L (manufacturing) / ₹10 L (service sector).`,
+        officialLink: `https://www.kviconline.gov.in/pmegpeportal`,
+        industrySlug: null,
+    },
+    {
+        slug: `cgtmse`,
+        name: `CGTMSE (Credit Guarantee Fund for Micro & Small Enterprises)`,
+        description: `Credit guarantee trust that enables collateral-free institutional credit for micro and small enterprises.`,
+        benefits: `Guarantee cover up to ₹5 crore on bank loans, reducing collateral requirements.`,
+        officialLink: `https://www.cgtmse.in`,
+        industrySlug: null,
+    },
+    {
+        slug: `pm_fme`,
+        name: `PM FME (Formalisation of Micro Food Processing Enterprises)`,
+        description: `Scheme for micro food processing units: capital subsidy, capacity building and FSSAI support.`,
+        benefits: `35% capital subsidy up to ₹10 L per unit, plus support for branding, marketing and testing.`,
+        officialLink: `https://pmfme.mofpi.gov.in`,
+        industrySlug: `food_processing`,
+    },
+    {
+        slug: `atufs`,
+        name: `ATUFS (Amended Technology Upgradation Fund Scheme)`,
+        description: `One-time capital subsidy for technology upgradation in eligible textile sub-sectors (weaving, processing, garments).`,
+        benefits: `10–15% capital investment subsidy on eligible machinery via Credit Linked Capital Subsidy.`,
+        officialLink: `https://texmin.nic.in`,
+        industrySlug: `textile_manufacturing`,
+    },
+    {
+        slug: `pm_vishwakarma`,
+        name: `PM Vishwakarma Scheme`,
+        description: `Support for traditional artisans and craftspeople: recognition, skill training, toolkit incentive and collateral-free credit.`,
+        benefits: `₹15,000 toolkit e-voucher, skilling stipend, 5% interest loans up to ₹3 L, and marketing support.`,
+        officialLink: `https://pmvishwakarma.gov.in`,
+        industrySlug: `handicrafts`,
+    },
+    {
+        slug: `nhdp`,
+        name: `National Handicrafts Development Programme (NHDP)`,
+        description: `Umbrella programme by DC (Handicrafts) covering design, technology, marketing and artisan welfare interventions.`,
+        benefits: `Design & technology upgradation, marketing support (Dilli Haat, expos), and artisan credit cards.`,
+        officialLink: `https://handicrafts.nic.in`,
+        industrySlug: `handicrafts`,
+    },
+    {
+        slug: `startup_india_dpiit`,
+        name: `Startup India — DPIIT Recognition`,
+        description: `Recognition for eligible startups unlocking tax exemptions, self-certification, IPR fast-tracking and fund access.`,
+        benefits: `3-year income tax holiday (Sec 80-IAC), self-certification under labour/environment laws, Fund of Funds access.`,
+        officialLink: `https://www.startupindia.gov.in`,
+        industrySlug: `it_services`,
+    },
+    {
+        slug: `stpi_benefits`,
+        name: `STPI Benefits (Software Technology Parks of India)`,
+        description: `Statutory and infrastructural benefits for export-oriented IT/ITES units registered under STPI.`,
+        benefits: `Tax benefits, single-window clearance, plug-and-play infrastructure and export promotion support.`,
+        officialLink: `https://www.stpi.in`,
+        industrySlug: `it_services`,
+    },
+];

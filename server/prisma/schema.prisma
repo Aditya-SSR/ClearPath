@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Neon: migrations must use the direct (unpooled) connection —
+  // the pooled PgBouncer URL breaks Prisma Migrate
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  clerkUserId   String   @unique
+  email         String   @unique
+  name          String?
+  createdAt     DateTime @default(now())
+  businessProfiles BusinessProfile[]
+}
+
+model Industry {
+  id       String   @id @default(uuid())
+  slug     String   @unique
+  name     String
+  active   Boolean  @default(true)
+  questions       Question[]
+  documentRules   DocumentRule[]
+  schemeRules     SchemeEligibilityRule[]
+  schemes         Scheme[]
+}
+
+model Question {
+  id          String   @id @default(uuid())
+  industryId  String?
+  industry    Industry? @relation(fields: [industryId], references: [id])
+  key         String
+  questionText String
+  inputType   String   // 'text' | 'number' | 'boolean' | 'select'
+  options     Json?
+  phase       String   // 'A' or 'B'
+  orderIndex  Int
+}
+
+model QuestionnaireResponse {
+  id          String   @id @default(uuid())
+  userId      String
+  industryId  String
+  rawAnswers  Json
+  submittedAt DateTime @default(now())
+  businessProfile BusinessProfile?
+}
+
+model BusinessProfile {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  responseId    String   @unique
+  response      QuestionnaireResponse @relation(fields: [responseId], references: [id])
+  industryId    String
+  businessScale String?  // 'micro' | 'small' | 'medium'
+  entityType    String?
+  profileData   Json
+  createdAt     DateTime @default(now())
+  generatedOutput GeneratedOutput?
+}
+
+model DocumentType {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  name        String
+  description String?
+  documentRules DocumentRule[]
+}
+
+model DocumentRule {
+  id             String   @id @default(uuid())
+  documentTypeId String
+  documentType   DocumentType @relation(fields: [documentTypeId], references: [id])
+  industryId     String?
+  industry       Industry? @relation(fields: [industryId], references: [id])
+  condition      Json
+}
+
+model Scheme {
+  id            String   @id @default(uuid())
+  name          String
+  description   String?
+  industryId    String?
+  industry      Industry? @relation(fields: [industryId], references: [id])
+  benefits      String?
+  officialLink  String?
+  eligibilityRules SchemeEligibilityRule[]
+}
+
+model SchemeEligibilityRule {
+  id         String   @id @default(uuid())
+  schemeId   String
+  scheme     Scheme   @relation(fields: [schemeId], references: [id])
+  industryId String?
+  industry   Industry? @relation(fields: [industryId], references: [id])
+  condition  Json
+}
+
+model GeneratedOutput {
+  id                 String   @id @default(uuid())
+  profileId          String   @unique
+  profile            BusinessProfile @relation(fields: [profileId], references: [id])
+  requiredDocuments  Json
+  matchedSchemes     Json
+  generatedAt        DateTime @default(now())
+}

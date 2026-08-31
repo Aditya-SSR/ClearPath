@@ -1,28 +1,27 @@
 require(`dotenv`).config();
 const express = require(`express`);
 const cors = require(`cors`);
-const { clerkMiddleware, getAuth } = require(`@clerk/express`);
+const { clerkMiddleware } = require(`@clerk/express`);
 
 const app = express();
 
 const requestlogger = require(`./middlewares/logger`);
+const requireAuth = require(`./middlewares/auth`);
 const webhookRouter = require(`./routes/webhooks`);
+const questionnaireRoutes = require(`./routes/questionnaire.routes`);
+const profileRoutes = require(`./routes/profile.routes`);
 
 app.use(requestlogger);
 
-// Clerk middleware — attaches req.auth to every request (does not block anyone by itself)
+
 app.use(clerkMiddleware());
 
-// Webhook route — MUST stay before express.json(): svix signature verification
-// needs the exact raw bytes Clerk sent, so it is parsed with express.raw().
-// Public route, protected by signature verification instead of a session.
+
+// MUST stay before express.json(): svix webhook signature verification
+// needs the exact raw bytes Clerk sent.
 app.use(`/api/webhooks/clerk`, express.raw({ type: `*/*` }), webhookRouter);
 
-// CORS — allows the Next.js frontend (localhost:3000) to call this API with
-// an Authorization: Bearer <session token> header. Override with CORS_ORIGIN
-// in server/.env (comma-separated list for multiple origins).
-// NOTE: an array is used (not a string) so the Access-Control-Allow-Origin
-// header is only sent for origins actually in the allow-list.
+
 const allowedOrigins = process.env.CORS_ORIGIN
     ? process.env.CORS_ORIGIN.split(`,`).map((origin) => origin.trim()).filter(Boolean)
     : [`http://localhost:3000`];
@@ -32,21 +31,12 @@ app.use(cors({ origin: allowedOrigins }));
 // JSON body parsing for normal API routes
 app.use(express.json());
 
-// Auth guard — implements the recommended pattern in place of the deprecated
-// requireAuth() from @clerk/express: unauthenticated requests get a 401 JSON response.
-const requireAuth = (req, res, next) => {
-    const { userId } = getAuth(req);
+// Feature routes (Part 1 roadmap engine)
+app.use(`/questionnaire`, questionnaireRoutes);
+app.use(`/profile`, profileRoutes);
 
-    if (!userId) {
-        return res.status(401).json({ error: `Unauthorized` });
-    }
-
-    next();
-};
-
-// Public route — anyone can access, signed in or not
 app.get(`/`, (req, res) => {
-    const { userId } = getAuth(req);
+    const { userId } = req.auth || {};
 
     if (userId) {
         return res.json(`Welcome back to ClearPath, ${userId}!!`);
@@ -55,11 +45,16 @@ app.get(`/`, (req, res) => {
     res.json(`Welcome to ClearPath!!`);
 });
 
-// Protected route — unauthenticated requests are rejected with 401
-app.get("/users", requireAuth, (req, res) => {
-    const { userId } = getAuth(req);
 
-    res.json(`You are in the users section, ${userId}`);
+app.get("/users", requireAuth, (req, res) => {
+    res.json(`You are in the users section, ${req.userId}`);
+});
+
+// Central error handler — must be registered LAST.
+// Keeps thrown errors from crashing the process; services may set err.status.
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(err.status || 500).json({ error: err.message || `Internal server error` });
 });
 
 const PORT = process.env.PORT || 6000;
